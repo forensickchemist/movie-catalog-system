@@ -1,0 +1,140 @@
+const Movie = require("../models/Movie");
+const asyncHandler = require("../middleware/asyncHandler");
+
+module.exports.addMovie = asyncHandler(async (req, res) => {
+    const { title, director, year, description, genre } = req.body || {};
+
+    if (!title || !director || !year || !description || !genre) {
+        return res.status(400).json({
+            message: "Title, director, year, description, and genre are required"
+        });
+    }
+
+    const movie = await Movie.create({
+        title, director, year, description, genre
+    });
+
+    res.status(201).json(movie);
+
+});
+
+module.exports.getAllMovies = asyncHandler(async (req, res) => {
+    const movies = await Movie.find();
+
+    res.status(200).json({
+        movies
+    });
+});
+
+module.exports.getMovieById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const movie = await Movie.findById(id);
+
+    if (!movie) {
+        return res.status(404).json({
+            success: false,
+            message: "Movie not found"
+        });
+    }
+
+    res.status(200).json(movie);
+});
+
+module.exports.updateMovie = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const { title, director, year, description, genre, poster } = req.body;
+
+    const movie = await Movie.findById(id);
+
+    if (!movie) {
+        return res.status(404).json({
+            success: false,
+            message: "Movie not found"
+        });
+    }
+
+    // Update only fields that were provided
+    if (title !== undefined) movie.title = title;
+    if (director !== undefined) movie.director = director;
+    if (year !== undefined) movie.year = year;
+    if (description !== undefined) movie.description = description;
+    if (genre !== undefined) movie.genre = genre;
+    if (poster !== undefined) movie.poster = poster;
+
+    await movie.save();
+
+    res.status(200).json(movie);
+});
+
+module.exports.deleteMovie = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const movie = await Movie.findByIdAndDelete(id);
+
+    if (!movie) {
+        return res.status(404).json({
+            success: false,
+            message: "Movie not found"
+        });
+    }
+
+    res.status(200).json({
+        message: "Movie deleted successfully"
+    });
+});
+
+module.exports.addMovieComment = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { comment } = req.body;
+
+    if (!comment || !comment.trim()) {
+        return res.status(400).json({
+            success: false,
+            message: "Comment is required"
+        });
+    }
+
+    const movie = await Movie.findById(id);
+
+    if (!movie) {
+        return res.status(404).json({
+            success: false,
+            message: "Movie not found"
+        });
+    }
+
+    movie.comments.push({
+        userId: req.user.id,
+        comment: comment.trim()
+    });
+
+    await movie.save();
+
+    res.status(201).json({
+        message: "comment added successfully",
+        updatedMovie: movie
+    });
+});
+
+module.exports.getMovieComments = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const movie = await Movie.findById(id);
+
+    if (!movie) {
+        return res.status(404).json({
+            success: false,
+            message: "Movie not found"
+        });
+    }
+
+    const comments = movie.comments.map(comment => ({
+        userId: comment.userId,
+        comment: comment.comment,
+        id: comment._id
+    }));
+
+    res.status(200).json(comments);
+});
