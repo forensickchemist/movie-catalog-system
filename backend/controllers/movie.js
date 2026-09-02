@@ -1,6 +1,7 @@
 const Movie = require("../models/Movie");
 const asyncHandler = require("../middleware/asyncHandler");
 const uploadToCloudinary = require("../utils/cloudinaryUpload");
+const maskEmail = require("../utils/maskEmail");
 
 module.exports.addMovie = asyncHandler(async (req, res) => {
     const {
@@ -165,7 +166,9 @@ module.exports.addMovieComment = asyncHandler(async (req, res) => {
 module.exports.getMovieComments = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
-    const movie = await Movie.findById(id);
+    const movie = await Movie
+        .findById(id)
+        .populate("comments.userId", "email");
 
     if (!movie) {
         return res.status(404).json({
@@ -175,9 +178,10 @@ module.exports.getMovieComments = asyncHandler(async (req, res) => {
     }
 
     const comments = movie.comments.map(comment => ({
-        userId: comment.userId,
+        id: comment._id,
         comment: comment.comment,
-        id: comment._id
+        displayName: maskEmail(comment.userId.email),
+        createdAt: comment.createdAt
     }));
 
     res.status(200).json(comments);

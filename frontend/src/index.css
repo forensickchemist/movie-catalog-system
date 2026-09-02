@@ -1,0 +1,533 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap");
+
+:root {
+    font-family: "Inter", sans-serif;
+    color: #1a1a1a;
+    background: #f5f3ee;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 24px 5vw;
+
+    border-bottom: 1px solid #d8d5cd;
+    background: #f5f3ee;
+}
+
+.brand {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    font-size: 13px;
+}
+
+.user-email {
+    opacity: 0.65;
+}
+
+.app-container {
+    width: min(1400px, 90%);
+    margin: 0 auto;
+    padding: 60px 0;
+}
+
+.hero {
+    max-width: 800px;
+    padding: 70px 0 100px;
+}
+
+.eyebrow {
+    margin: 0 0 16px;
+
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+}
+
+.hero h1,
+.form-header h1,
+.auth-card h1,
+.admin-header h1 {
+    margin: 0;
+
+    font-family: "Playfair Display", serif;
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 500;
+    line-height: 0.95;
+}
+
+.hero > p:last-child {
+    max-width: 550px;
+    margin-top: 28px;
+
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    margin-bottom: 30px;
+
+    border-top: 1px solid #1a1a1a;
+    padding-top: 18px;
+}
+
+.section-heading h2 {
+    margin: 0;
+
+    font-family: "Playfair Display", serif;
+    font-size: 34px;
+}
+
+.section-heading span {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+}
+
+.movie-card {
+    background: #ebe8df;
+}
+
+.movie-poster {
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: #d8d5cd;
+}
+
+.movie-poster img,
+.details-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.poster-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+}
+
+.movie-card-content {
+    padding: 20px;
+}
+
+.movie-card h2 {
+    margin: 5px 0 8px;
+
+    font-family: "Playfair Display", serif;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.movie-year,
+.movie-director {
+    margin: 0;
+
+    font-size: 12px;
+    opacity: 0.65;
+}
+
+.movie-director {
+    line-height: 1.5;
+}
+
+.genre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    margin: 18px 0;
+}
+
+.genre-list span {
+    padding: 5px 8px;
+
+    border: 1px solid #bbb8af;
+
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 12px 18px;
+
+    border: 1px solid #1a1a1a;
+    background: #1a1a1a;
+    color: #fff;
+
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+.button-outline {
+    background: transparent;
+    color: #1a1a1a;
+}
+
+.button-full {
+    width: 100%;
+}
+
+.auth-page,
+.form-page {
+    display: flex;
+    justify-content: center;
+}
+
+.auth-card,
+.form-card {
+    width: min(600px, 100%);
+}
+
+.auth-card {
+    padding: 50px 0;
+}
+
+.auth-card h1 {
+    font-size: 58px;
+    margin-bottom: 40px;
+}
+
+form {
+    display: grid;
+    gap: 24px;
+}
+
+label {
+    display: grid;
+    gap: 8px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+input,
+textarea {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #bbb8af;
+    background: #faf9f5;
+
+    outline: none;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #1a1a1a;
+}
+
+small {
+    font-size: 11px;
+    opacity: 0.6;
+}
+
+.auth-card > p:last-child {
+    margin-top: 30px;
+
+    font-size: 13px;
+}
+
+.auth-card a {
+    text-decoration: underline;
+}
+
+.error-message {
+    margin-bottom: 20px;
+    padding: 12px;
+
+    border: 1px solid #a33;
+
+    font-size: 13px;
+}
+
+.success-message {
+    margin-bottom: 20px;
+    padding: 12px;
+
+    border: 1px solid #496b4d;
+
+    font-size: 13px;
+}
+
+.loading {
+    padding: 50px 0;
+    font-size: 13px;
+}
+
+.empty-state {
+    padding: 50px 0;
+    opacity: 0.6;
+}
+
+.movie-details {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 80px;
+
+    max-width: 1100px;
+    margin: 50px auto;
+}
+
+.details-poster {
+    aspect-ratio: 2 / 3;
+    background: #d8d5cd;
+}
+
+.details-content h1 {
+    margin: 10px 0;
+
+    font-family: "Playfair Display", serif;
+    font-size: clamp(50px, 7vw, 90px);
+    font-weight: 500;
+    line-height: 0.95;
+}
+
+.details-director {
+    opacity: 0.65;
+}
+
+.movie-description {
+    max-width: 700px;
+
+    margin: 50px 0;
+
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.comment-header strong {
+    font-size: 0.9rem;
+}
+
+.comment-header time {
+    font-size: 0.8rem;
+    opacity: 0.65;
+}
+
+
+.comments {
+    border-top: 1px solid #1a1a1a;
+    padding-top: 25px;
+}
+
+.comments h2 {
+    font-family: "Playfair Display", serif;
+    font-weight: 500;
+}
+
+.comment {
+    padding: 18px 0;
+    border-bottom: 1px solid #d8d5cd;
+}
+
+.comment p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.comment-form {
+    margin-bottom: 40px;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+
+    margin-bottom: 50px;
+}
+
+.admin-header h1 {
+    font-size: 58px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 16px 10px;
+
+    border-bottom: 1px solid #d8d5cd;
+
+    text-align: left;
+    font-size: 13px;
+}
+
+th {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.table-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.table-actions button {
+    border: 0;
+    background: transparent;
+    text-decoration: underline;
+}
+
+.form-header {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.form-header h1 {
+    font-size: 58px;
+}
+
+.form-card {
+    width: 100%;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+@media (max-width: 1000px) {
+    .movie-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .movie-details {
+        grid-template-columns: 300px 1fr;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 700px) {
+    .navbar {
+        align-items: flex-start;
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+    }
+
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .movie-details {
+        grid-template-columns: 1fr;
+    }
+
+    .details-poster {
+        max-width: 350px;
+    }
+
+    .admin-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 600px) {
+    .comment-header {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .movie-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .app-container {
+        width: 92%;
+        padding-top: 35px;
+    }
+
+    .hero {
+        padding: 40px 0 70px;
+    }
+}
