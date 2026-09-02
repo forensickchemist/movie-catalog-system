@@ -58,3 +58,27 @@ export const deleteMovie = async (id) => {
         }
     });
 };
+
+export const getCurrentFeatured = async () => {
+    return request("/featured/current");
+};
+
+export const setFeatured = async (
+    year,
+    month,
+    movies
+) => {
+    return request(
+        `/featured/${year}/${month}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                ...getAuthHeaders()
+            },
+            body: JSON.stringify({
+                movies
+            })
+        }
+    );
+};

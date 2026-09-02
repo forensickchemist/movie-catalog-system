@@ -42,7 +42,12 @@ const EditMovie = () => {
         loadMovie();
     }, [id]);
 
-    const handleSubmit = async (form, poster) => {
+    
+    const handleSubmit = async (
+        form,
+        poster,
+        backdrop
+    ) => {
         setSubmitError("");
         setSubmitting(true);
 
@@ -85,6 +90,13 @@ const EditMovie = () => {
                 );
             }
 
+            if (backdrop) {
+                formData.append(
+                    "backdrop",
+                    backdrop
+                );
+            }
+
             await updateMovie(
                 id,
                 formData
@@ -97,6 +109,7 @@ const EditMovie = () => {
             setSubmitting(false);
         }
     };
+
 
     if (loading) {
         return <Loading />;

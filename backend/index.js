@@ -9,6 +9,7 @@ const connectDB = require("./config/database");
 // Routes
 const movieRoutes = require("./routes/movie");
 const userRoutes = require("./routes/user");
+const featuredRoutes = require("./routes/featured");
 
 const errorHandler = require("./middleware/errorHandler");
 
@@ -24,6 +25,7 @@ connectDB();
 // Routes
 app.use("/movies", movieRoutes);
 app.use("/users", userRoutes);
+app.use("/featured", featuredRoutes);
 
 // Root route
 app.get("/", (req, res) => {

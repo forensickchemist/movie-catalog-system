@@ -19,7 +19,12 @@ const AddMovie = () => {
         genre: ""
     };
 
-    const handleSubmit = async (form, poster) => {
+
+    const handleSubmit = async (
+        form,
+        poster,
+        backdrop
+    ) => {
         setError("");
         setLoading(true);
 
@@ -39,6 +44,10 @@ const AddMovie = () => {
                 formData.append("poster", poster);
             }
 
+            if (backdrop) {
+                formData.append("backdrop", backdrop);
+            }
+
             await addMovie(formData);
 
             navigate("/admin");
@@ -48,6 +57,7 @@ const AddMovie = () => {
             setLoading(false);
         }
     };
+
 
     return (
         <section className="form-page">

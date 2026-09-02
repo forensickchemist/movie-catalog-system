@@ -13,6 +13,7 @@ const MovieForm = ({
 }) => {
     const [form, setForm] = useState(initialValues);
     const [poster, setPoster] = useState(null);
+    const [backdrop, setBackdrop] = useState(null);
 
     const handleChange = (event) => {
         const {
@@ -32,10 +33,20 @@ const MovieForm = ({
         );
     };
 
+    const handleBackdropChange = (event) => {
+        setBackdrop(
+            event.target.files[0] || null
+        );
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        await onSubmit(form, poster);
+        await onSubmit(
+            form,
+            poster,
+            backdrop
+        );
     };
 
     return (
@@ -118,6 +129,22 @@ const MovieForm = ({
                     />
 
                     <small>
+                        Portrait image. JPG, PNG, or WEBP.
+                        Maximum 5 MB.
+                    </small>
+                </label>
+
+                <label>
+                    Backdrop
+
+                    <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        onChange={handleBackdropChange}
+                    />
+
+                    <small>
+                        Landscape image for featured films.
                         JPG, PNG, or WEBP. Maximum 5 MB.
                     </small>
                 </label>
