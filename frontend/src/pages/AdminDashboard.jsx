@@ -66,7 +66,7 @@ const AdminDashboard = () => {
 
                 <div>
                     <p className="eyebrow">
-                        ADMINISTRATION
+                        ADMIN
                     </p>
 
                     <h1>Movie Dashboard</h1>
@@ -126,12 +126,16 @@ const AdminDashboard = () => {
                                         View
                                     </Link>
 
+                                    <Link
+                                        to={`/admin/movies/edit/${movie._id}`}
+                                    >
+                                        Update
+                                    </Link>
+
                                     <button
                                         type="button"
                                         onClick={() =>
-                                            handleDelete(
-                                                movie._id
-                                            )
+                                            handleDelete(movie._id)
                                         }
                                     >
                                         Delete

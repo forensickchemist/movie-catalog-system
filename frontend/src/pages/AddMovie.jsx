@@ -1,88 +1,42 @@
 import { useState } from "react";
-import {
-    Link,
-    useNavigate
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import {
-    addMovie
-} from "../services/movieService";
+import { addMovie } from "../services/movieService";
 
-import ErrorMessage from "../components/ErrorMessage";
+import MovieForm from "../components/MovieForm";
 
 const AddMovie = () => {
     const navigate = useNavigate();
 
-    const [form, setForm] = useState({
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const initialValues = {
         title: "",
         director: "",
         year: "",
         description: "",
         genre: ""
-    });
-
-    const [poster, setPoster] = useState(null);
-
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-
-    const handleChange = (event) => {
-        const {
-            name,
-            value
-        } = event.target;
-
-        setForm((current) => ({
-            ...current,
-            [name]: value
-        }));
     };
 
-    const handlePosterChange = (event) => {
-        setPoster(
-            event.target.files[0] || null
-        );
-    };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
+    const handleSubmit = async (form, poster) => {
         setError("");
         setLoading(true);
 
         try {
             const formData = new FormData();
 
-            formData.append(
-                "title",
-                form.title
-            );
-
-            formData.append(
-                "director",
-                form.director
-            );
-
-            formData.append(
-                "year",
-                form.year
-            );
-
+            formData.append("title", form.title);
+            formData.append("director", form.director);
+            formData.append("year", form.year);
             formData.append(
                 "description",
                 form.description
             );
-
-            formData.append(
-                "genre",
-                form.genre
-            );
+            formData.append("genre", form.genre);
 
             if (poster) {
-                formData.append(
-                    "poster",
-                    poster
-                );
+                formData.append("poster", poster);
             }
 
             await addMovie(formData);
@@ -99,120 +53,23 @@ const AddMovie = () => {
         <section className="form-page">
 
             <div className="form-header">
+
                 <p className="eyebrow">
-                    ADMINISTRATION
+                    ADMIN
                 </p>
 
                 <h1>Add Movie</h1>
-            </div>
-
-            <div className="form-card">
-
-                <ErrorMessage message={error} />
-
-                <form onSubmit={handleSubmit}>
-
-                    <label>
-                        Title
-
-                        <input
-                            type="text"
-                            name="title"
-                            value={form.title}
-                            onChange={handleChange}
-                            required
-                        />
-                    </label>
-
-                    <label>
-                        Director
-
-                        <input
-                            type="text"
-                            name="director"
-                            value={form.director}
-                            onChange={handleChange}
-                            required
-                        />
-                    </label>
-
-                    <label>
-                        Year
-
-                        <input
-                            type="number"
-                            name="year"
-                            value={form.year}
-                            onChange={handleChange}
-                            min="1888"
-                            max={new Date().getFullYear()}
-                            required
-                        />
-                    </label>
-
-                    <label>
-                        Genre
-
-                        <input
-                            type="text"
-                            name="genre"
-                            value={form.genre}
-                            onChange={handleChange}
-                            placeholder="Drama"
-                            required
-                        />
-                    </label>
-
-                    <label>
-                        Description
-
-                        <textarea
-                            name="description"
-                            value={form.description}
-                            onChange={handleChange}
-                            rows="6"
-                            required
-                        />
-                    </label>
-
-                    <label>
-                        Poster
-
-                        <input
-                            type="file"
-                            accept="image/jpeg,image/png,image/webp"
-                            onChange={handlePosterChange}
-                        />
-
-                        <small>
-                            JPG, PNG, or WEBP. Maximum 5 MB.
-                        </small>
-                    </label>
-
-                    <div className="form-actions">
-
-                        <Link
-                            to="/admin"
-                            className="button button-outline"
-                        >
-                            Cancel
-                        </Link>
-
-                        <button
-                            type="submit"
-                            className="button"
-                            disabled={loading}
-                        >
-                            {loading
-                                ? "Adding Movie..."
-                                : "Add Movie"}
-                        </button>
-
-                    </div>
-
-                </form>
 
             </div>
+
+            <MovieForm
+                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                loading={loading}
+                error={error}
+                submitLabel="Add Movie"
+                loadingLabel="Adding Movie..."
+            />
 
         </section>
     );

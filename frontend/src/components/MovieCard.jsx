@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 
+import { useAuth } from "../context/AuthContext";
+import PosterPlaceholder from "./PosterPlaceholder";
+
 const MovieCard = ({ movie }) => {
+    const { isAdmin } = useAuth();
+
     return (
         <article className="movie-card">
 
@@ -11,9 +16,7 @@ const MovieCard = ({ movie }) => {
                         alt={`${movie.title} poster`}
                     />
                 ) : (
-                    <div className="poster-placeholder">
-                        NO POSTER
-                    </div>
+                    <PosterPlaceholder />
                 )}
             </div>
 
@@ -39,12 +42,25 @@ const MovieCard = ({ movie }) => {
                     ))}
                 </div>
 
-                <Link
-                    to={`/movies/${movie._id}`}
-                    className="button"
-                >
-                    View Movie
-                </Link>
+                <div className="movie-card-actions">
+
+                    <Link
+                        to={`/movies/${movie._id}`}
+                        className="button"
+                    >
+                        View Movie
+                    </Link>
+
+                    {isAdmin && (
+                        <Link
+                            to={`/admin/movies/edit/${movie._id}`}
+                            className="button"
+                        >
+                            Update
+                        </Link>
+                    )}
+
+                </div>
 
             </div>
 

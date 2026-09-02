@@ -15,6 +15,7 @@ import Register from "./pages/Register";
 import MovieDetails from "./pages/MovieDetails";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddMovie from "./pages/AddMovie";
+import EditMovie from "./pages/EditMovie";
 
 const App = () => {
     return (
@@ -55,6 +56,11 @@ const App = () => {
                             <Route
                                 path="/admin/movies/add"
                                 element={<AddMovie />}
+                            />
+
+                            <Route
+                                path="/admin/movies/edit/:id"
+                                element={<EditMovie />}
                             />
                         </Route>
 

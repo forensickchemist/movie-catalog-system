@@ -65,6 +65,16 @@ const movieSchema = new mongoose.Schema(
             }
         },
 
+        backdrop: {
+            url: {
+                type: String
+            },
+
+            publicId: {
+                type: String
+            }
+        },
+
         comments: [commentSchema]
     }
 );

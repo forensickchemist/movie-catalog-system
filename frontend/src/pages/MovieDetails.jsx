@@ -14,6 +14,7 @@ import { useAuth } from "../context/AuthContext";
 
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
+import PosterPlaceholder from "../components/PosterPlaceholder";
 
 const MovieDetails = () => {
     const { id } = useParams();
@@ -106,9 +107,7 @@ const MovieDetails = () => {
                         alt={`${movie.title} poster`}
                     />
                 ) : (
-                    <div className="poster-placeholder">
-                        NO POSTER
-                    </div>
+                    <PosterPlaceholder />
                 )}
 
             </div>

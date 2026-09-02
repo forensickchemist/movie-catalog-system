@@ -1,17 +1,23 @@
 const express = require("express");
-
 const Movie = require("../controllers/movie");
-
 const { protect, adminOnly } = require("../middleware/auth");
 const upload = require("../middleware/upload");
-
 const router = express.Router();
 
 router.post(
     "/addMovie",
     protect,
     adminOnly,
-    upload.single("poster"),
+    upload.fields([
+        {
+            name: "poster",
+            maxCount: 1
+        },
+        {
+            name: "backdrop",
+            maxCount: 1
+        }
+    ]),
     Movie.addMovie
 );
 
@@ -23,7 +29,16 @@ router.patch(
     "/updateMovie/:id",
     protect,
     adminOnly,
-    upload.single("poster"),
+    upload.fields([
+        {
+            name: "poster",
+            maxCount: 1
+        },
+        {
+            name: "backdrop",
+            maxCount: 1
+        }
+    ]),
     Movie.updateMovie
 );
 

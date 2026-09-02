@@ -15,7 +15,8 @@ const Register = () => {
 
     const [form, setForm] = useState({
         email: "",
-        password: ""
+        password: "",
+        confirmPassword: ""
     });
 
     const [error, setError] = useState("");
@@ -39,6 +40,17 @@ const Register = () => {
 
         setError("");
         setSuccess("");
+
+        if (form.password.length < 8) {
+            setError("Password must be at least 8 characters");
+            return;
+        }
+
+        if (form.password !== form.confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -102,6 +114,20 @@ const Register = () => {
                             name="password"
                             value={form.password}
                             onChange={handleChange}
+                            minLength={8}
+                            required
+                        />
+                    </label>
+
+                    <label>
+                        Confirm password
+
+                        <input
+                            type="password"
+                            name="confirmPassword"
+                            value={form.confirmPassword}
+                            onChange={handleChange}
+                            minLength={8}
                             required
                         />
                     </label>
