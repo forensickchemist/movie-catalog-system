@@ -12,6 +12,7 @@ const createToken = (userId) => {
     );
 };
 
+
 const register = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
@@ -74,4 +75,22 @@ const login = asyncHandler(async (req, res) => {
     });
 });
 
-module.exports = { register, login };
+const getCurrentUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id).select("-password");
+
+    if (!user) {
+        return res.status(404).json({
+            message: "User not found"
+        });
+    }
+
+    res.status(200).json({
+        user: {
+            id: user._id,
+            email: user.email,
+            isAdmin: user.isAdmin
+        }
+    });
+});
+
+module.exports = { register, login, getCurrentUser };

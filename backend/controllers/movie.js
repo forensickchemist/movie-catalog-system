@@ -1,8 +1,15 @@
 const Movie = require("../models/Movie");
 const asyncHandler = require("../middleware/asyncHandler");
+const uploadToCloudinary = require("../utils/cloudinaryUpload");
 
 module.exports.addMovie = asyncHandler(async (req, res) => {
-    const { title, director, year, description, genre } = req.body || {};
+    const {
+        title,
+        director,
+        year,
+        description,
+        genre
+    } = req.body || {};
 
     if (!title || !director || !year || !description || !genre) {
         return res.status(400).json({
@@ -10,12 +17,30 @@ module.exports.addMovie = asyncHandler(async (req, res) => {
         });
     }
 
+    let poster;
+
+    if (req.file) {
+        const result = await uploadToCloudinary(
+            req.file.buffer,
+            "movie-catalog/poster"
+        );
+
+        poster = {
+            url: result.secure_url,
+            publicId: result.public_id
+        };
+    }
+
     const movie = await Movie.create({
-        title, director, year, description, genre
+        title,
+        director,
+        year,
+        description,
+        genre: Array.isArray(genre) ? genre : [genre],
+        poster
     });
 
     res.status(201).json(movie);
-
 });
 
 module.exports.getAllMovies = asyncHandler(async (req, res) => {
@@ -44,7 +69,13 @@ module.exports.getMovieById = asyncHandler(async (req, res) => {
 module.exports.updateMovie = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
-    const { title, director, year, description, genre, poster } = req.body;
+    const {
+        title,
+        director,
+        year,
+        description,
+        genre
+    } = req.body;
 
     const movie = await Movie.findById(id);
 
@@ -55,13 +86,26 @@ module.exports.updateMovie = asyncHandler(async (req, res) => {
         });
     }
 
-    // Update only fields that were provided
     if (title !== undefined) movie.title = title;
     if (director !== undefined) movie.director = director;
     if (year !== undefined) movie.year = year;
     if (description !== undefined) movie.description = description;
-    if (genre !== undefined) movie.genre = genre;
-    if (poster !== undefined) movie.poster = poster;
+
+    if (genre !== undefined) {
+        movie.genre = Array.isArray(genre) ? genre : [genre];
+    }
+
+    if (req.file) {
+        const result = await uploadToCloudinary(
+            req.file.buffer,
+            "movie-catalog/poster"
+        );
+
+        movie.poster = {
+            url: result.secure_url,
+            publicId: result.public_id
+        };
+    }
 
     await movie.save();
 
