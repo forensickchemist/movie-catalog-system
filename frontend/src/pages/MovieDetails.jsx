@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import {
     Link,
+    useLocation,
+    useNavigate,
     useParams
 } from "react-router-dom";
 
@@ -18,6 +20,9 @@ import PosterPlaceholder from "../components/PosterPlaceholder";
 
 const MovieDetails = () => {
     const { id } = useParams();
+
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const { isAuthenticated } = useAuth();
 
@@ -84,6 +89,25 @@ const MovieDetails = () => {
         }
     };
 
+    const handleBack = () => {
+        if (location.state?.from === "catalog") {
+            navigate("/", {
+                state: {
+                    scrollTo: "films"
+                }
+            });
+
+            return;
+        }
+
+        if (location.state?.from === "admin-movies") {
+            navigate("/admin");
+            return;
+        }
+
+        navigate(-1);
+    };
+
     if (loading) {
         return <Loading />;
     }
@@ -125,6 +149,15 @@ const MovieDetails = () => {
 
                 <div className="app-container">
                     <div className="details-intro">
+
+                        <button
+                            type="button"
+                            className="details-back-button"
+                            onClick={handleBack}
+                        >
+                            ← Back
+                        </button>
+                        
                         <p className="eyebrow">
                             {movie.year}
                         </p>

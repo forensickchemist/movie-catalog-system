@@ -92,6 +92,37 @@
     color: var(--color-text);
 }
 
+.details-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    margin-bottom: 2rem;
+
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    color: inherit;
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    opacity: 0.8;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.details-back-button:hover {
+    opacity: 1;
+    transform: translateX(-3px);
+}
+
 
 /* ==============================
    Genres

@@ -1,14 +1,27 @@
 import request, { getAuthHeaders } from "./api";
 
-export const getMovies = async (search = "") => {
+export const getMovies = async ({
+    search = "",
+    page = 1,
+    limit = 20,
+    sort = "title",
+    order = "asc"
+} = {}) => {
+    const params = new URLSearchParams();
+
     const query = search.trim();
 
-    if (!query) {
-        return request("/movies/getMovies");
+    if (query) {
+        params.set("search", query);
     }
 
+    params.set("page", page);
+    params.set("limit", limit);
+    params.set("sort", sort);
+    params.set("order", order);
+
     return request(
-        `/movies/getMovies?search=${encodeURIComponent(query)}`
+        `/movies/getMovies?${params.toString()}`
     );
 };
 

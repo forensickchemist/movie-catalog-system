@@ -46,6 +46,7 @@ const MovieCard = ({ movie }) => {
 
                     <Link
                         to={`/movies/${movie._id}`}
+                        state={{ from: "catalog" }}
                         className="button"
                     >
                         View Movie

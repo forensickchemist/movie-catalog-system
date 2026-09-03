@@ -117,7 +117,7 @@ const FeaturedManager = ({
 
             try {
                 const data =
-                    await getMovies(query);
+                    await getMovies({ search: query});
 
                 if (!cancelled) {
                     setSearchResults(

@@ -21,7 +21,7 @@ const Home = () => {
             setError("");
 
             try {
-                const data = await getMovies(search);
+                const data = await getMovies({search});
 
                 setMovies(data.movies || []);
             } catch (err) {
