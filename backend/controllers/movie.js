@@ -64,9 +64,19 @@ module.exports.addMovie = asyncHandler(async (req, res) => {
 });
 
 module.exports.getAllMovies = asyncHandler(async (req, res) => {
-    const { search } = req.query;
+    const {
+        search,
+        page = 1,
+        limit = 20,
+        sort = "title",
+        order = "asc"
+    } = req.query;
 
     const query = {};
+
+    /* ==============================
+       Search
+       ============================== */
 
     if (search?.trim()) {
         const searchTerm = search.trim();
@@ -107,10 +117,72 @@ module.exports.getAllMovies = asyncHandler(async (req, res) => {
         }
     }
 
-    const movies = await Movie.find(query);
+    /* ==============================
+       Pagination
+       ============================== */
+
+    const currentPage =
+        Math.max(Number(page) || 1, 1);
+
+    const perPage =
+        Math.min(
+            Math.max(Number(limit) || 20, 1),
+            100
+        );
+
+    const skip =
+        (currentPage - 1) * perPage;
+
+    /* ==============================
+       Sorting
+       ============================== */
+
+    const allowedSortFields = [
+        "title",
+        "director",
+        "year",
+        "genre"
+    ];
+
+    const sortField =
+        allowedSortFields.includes(sort)
+            ? sort
+            : "title";
+
+    const sortOrder =
+        order === "desc" ? -1 : 1;
+
+    const sortOptions = {
+        [sortField]: sortOrder
+    };
+
+    /* ==============================
+       Query Database
+       ============================== */
+
+    const [movies, totalMovies] =
+        await Promise.all([
+            Movie.find(query)
+                .sort(sortOptions)
+                .skip(skip)
+                .limit(perPage),
+
+            Movie.countDocuments(query)
+        ]);
+
+    const totalPages =
+        Math.ceil(
+            totalMovies / perPage
+        );
 
     res.status(200).json({
-        movies
+        movies,
+        pagination: {
+            currentPage,
+            perPage,
+            totalMovies,
+            totalPages
+        }
     });
 });
 

@@ -1,12 +1,16 @@
+import { useEffect, useState } from "react";
+
 import SearchBar from "../SearchBar";
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
 import PosterPlaceholder from "../PosterPlaceholder";
 
+import {
+    getMovies,
+    getMovieById
+} from "../../services/movieService";
+
 const FeaturedManager = ({
-    movies,
-    search,
-    setSearch,
     featuredMovies,
     featuredLoading,
     featuredError,
@@ -18,44 +22,132 @@ const FeaturedManager = ({
     handleSaveFeatured,
     savingFeatured
 }) => {
-    const selectedMovies = featuredMovies
-        .map((movieId) =>
-            movies.find(
-                (movie) => movie._id === movieId
-            )
-        )
-        .filter(Boolean);
+    const [search, setSearch] =
+        useState("");
 
-    const filteredMovies = (() => {
-        const query = search.trim().toLowerCase();
+    const [searchResults, setSearchResults] =
+        useState([]);
 
-        if (!query) {
-            return [];
+    const [searchLoading, setSearchLoading] =
+        useState(false);
+
+    const [searchError, setSearchError] =
+        useState("");
+
+    const [selectedMovies, setSelectedMovies] =
+        useState([]);
+
+    const [selectedLoading, setSelectedLoading] =
+        useState(false);
+
+    /* ==============================
+       Load Selected Movies
+       ============================== */
+
+    useEffect(() => {
+        if (!featuredMovies.length) {
+            setSelectedMovies([]);
+            return;
         }
 
-        return movies.filter((movie) => {
-            const title =
-                movie.title?.toLowerCase() || "";
+        let cancelled = false;
 
-            const director =
-                movie.director?.toLowerCase() || "";
+        const loadSelectedMovies =
+            async () => {
+                setSelectedLoading(true);
 
-            const year =
-                movie.year?.toString() || "";
+                try {
+                    const movies =
+                        await Promise.all(
+                            featuredMovies.map(
+                                async (movieId) => {
+                                    const movie =
+                                        await getMovieById(
+                                            movieId
+                                        );
 
-            const genres =
-                movie.genre
-                    ?.join(" ")
-                    .toLowerCase() || "";
+                                    return movie;
+                                }
+                            )
+                        );
 
-            return (
-                title.includes(query) ||
-                director.includes(query) ||
-                year.includes(query) ||
-                genres.includes(query)
-            );
-        });
-    })();
+                    if (!cancelled) {
+                        setSelectedMovies(
+                            movies.filter(Boolean)
+                        );
+                    }
+                } catch (err) {
+                    if (!cancelled) {
+                        setSelectedMovies([]);
+                    }
+                } finally {
+                    if (!cancelled) {
+                        setSelectedLoading(false);
+                    }
+                }
+            };
+
+        loadSelectedMovies();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [featuredMovies]);
+
+    /* ==============================
+       Catalog Search
+       ============================== */
+
+    useEffect(() => {
+        const query = search.trim();
+
+        if (!query) {
+            setSearchResults([]);
+            setSearchLoading(false);
+            setSearchError("");
+
+            return;
+        }
+
+        let cancelled = false;
+
+        const loadSearchResults = async () => {
+            setSearchLoading(true);
+            setSearchError("");
+
+            try {
+                const data =
+                    await getMovies(query);
+
+                if (!cancelled) {
+                    setSearchResults(
+                        data.movies || []
+                    );
+                }
+            } catch (err) {
+                if (!cancelled) {
+                    setSearchResults([]);
+                    setSearchError(
+                        err.message
+                    );
+                }
+            } finally {
+                if (!cancelled) {
+                    setSearchLoading(false);
+                }
+            }
+        };
+
+        const timeout = setTimeout(
+            loadSearchResults,
+            300
+        );
+
+        return () => {
+            cancelled = true;
+            clearTimeout(timeout);
+        };
+    }, [search]);
 
     return (
         <section className="featured-admin">
@@ -197,14 +289,22 @@ const FeaturedManager = ({
 
                         <div className="featured-results-heading">
                             <span>
-                                Search results: {filteredMovies.length}
+                                {searchLoading
+                                    ? "Searching..."
+                                    : `Search results: ${searchResults.length}`}
                             </span>
                         </div>
 
-                        {filteredMovies.length > 0 ? (
+                        <ErrorMessage
+                            message={searchError}
+                        />
+
+                        {searchLoading ? (
+                            <Loading />
+                        ) : searchResults.length > 0 ? (
                             <div className="featured-results-list">
 
-                                {filteredMovies.map(
+                                {searchResults.map(
                                     (movie) => {
                                         const isSelected =
                                             featuredMovies.includes(
@@ -293,7 +393,8 @@ const FeaturedManager = ({
                     </div>
                 </div>
 
-                {featuredLoading ? (
+                {featuredLoading ||
+                selectedLoading ? (
                     <Loading />
                 ) : selectedMovies.length > 0 ? (
                     <div className="featured-selected-list">

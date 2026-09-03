@@ -1,35 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
-    getMovies,
-    deleteMovie,
     getCurrentFeatured,
     setFeatured
 } from "../services/movieService";
 
 import Loading from "../components/Loading";
-import ErrorMessage from "../components/ErrorMessage";
 
 import AdminHeader from "../components/admin/AdminHeader";
 import FeaturedManager from "../components/admin/FeaturedManager";
 import MovieTable from "../components/admin/MovieTable";
 
 const AdminDashboard = () => {
-    const [movies, setMovies] = useState([]);
-    const [search, setSearch] = useState("");
-
-    const [sortField, setSortField] =
-        useState("title");
-
-    const [sortDirection, setSortDirection] =
-        useState("asc");
-
-    const [loading, setLoading] =
-        useState(true);
-
-    const [error, setError] =
-        useState("");
-
     const [featuredMovies, setFeaturedMovies] =
         useState([]);
 
@@ -49,20 +31,6 @@ const AdminDashboard = () => {
 
     const [featuredYear, setFeaturedYear] =
         useState(now.getFullYear());
-
-    const loadMovies = async () => {
-        try {
-            const data = await getMovies();
-
-            setMovies(
-                data.movies || []
-            );
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const loadFeatured = async () => {
         setFeaturedLoading(true);
@@ -87,119 +55,20 @@ const AdminDashboard = () => {
     };
 
     useEffect(() => {
-        loadMovies();
         loadFeatured();
     }, []);
-
-    /* ==============================
-       Table Sorting
-       ============================== */
-
-    const handleSort = (field) => {
-        if (sortField === field) {
-            setSortDirection((current) =>
-                current === "asc"
-                    ? "desc"
-                    : "asc"
-            );
-
-            return;
-        }
-
-        setSortField(field);
-        setSortDirection("asc");
-    };
-
-    const sortedMovies = useMemo(() => {
-        return [...movies].sort((a, b) => {
-            let valueA;
-            let valueB;
-
-            if (sortField === "year") {
-                valueA =
-                    Number(a.year) || 0;
-
-                valueB =
-                    Number(b.year) || 0;
-            } else if (
-                sortField === "genre"
-            ) {
-                valueA =
-                    a.genre?.join(", ") || "";
-
-                valueB =
-                    b.genre?.join(", ") || "";
-            } else {
-                valueA =
-                    a[sortField]
-                        ?.toString() || "";
-
-                valueB =
-                    b[sortField]
-                        ?.toString() || "";
-            }
-
-            if (
-                typeof valueA === "string" &&
-                typeof valueB === "string"
-            ) {
-                const comparison =
-                    valueA.localeCompare(
-                        valueB,
-                        undefined,
-                        {
-                            sensitivity: "base"
-                        }
-                    );
-
-                return sortDirection === "asc"
-                    ? comparison
-                    : -comparison;
-            }
-
-            return sortDirection === "asc"
-                ? valueA - valueB
-                : valueB - valueA;
-        });
-    }, [
-        movies,
-        sortField,
-        sortDirection
-    ]);
 
     /* ==============================
        Movie Actions
        ============================== */
 
-    const handleDelete = async (id) => {
-        const confirmed =
-            window.confirm(
-                "Are you sure you want to delete this movie?"
-            );
-
-        if (!confirmed) {
-            return;
-        }
-
-        try {
-            await deleteMovie(id);
-
-            setMovies((current) =>
-                current.filter(
-                    (movie) =>
-                        movie._id !== id
-                )
-            );
-
-            setFeaturedMovies((current) =>
-                current.filter(
-                    (movieId) =>
-                        movieId !== id
-                )
-            );
-        } catch (err) {
-            setError(err.message);
-        }
+    const handleMovieDeleted = (id) => {
+        setFeaturedMovies((current) =>
+            current.filter(
+                (movieId) =>
+                    movieId !== id
+            )
+        );
     };
 
     /* ==============================
@@ -261,23 +130,12 @@ const AdminDashboard = () => {
         }
     };
 
-    if (loading) {
-        return <Loading />;
-    }
-
     return (
         <section>
 
             <AdminHeader />
 
-            <ErrorMessage
-                message={error}
-            />
-
             <FeaturedManager
-                movies={movies}
-                search={search}
-                setSearch={setSearch}
                 featuredMovies={featuredMovies}
                 featuredLoading={
                     featuredLoading
@@ -309,13 +167,9 @@ const AdminDashboard = () => {
             />
 
             <MovieTable
-                movies={sortedMovies}
-                sortField={sortField}
-                sortDirection={
-                    sortDirection
+                onMovieDeleted={
+                    handleMovieDeleted
                 }
-                handleSort={handleSort}
-                handleDelete={handleDelete}
             />
 
         </section>
