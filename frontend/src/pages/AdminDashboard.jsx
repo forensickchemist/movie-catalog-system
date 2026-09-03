@@ -1,7 +1,4 @@
-import { useEffect, useState } from "react";
-import {
-    Link
-} from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 
 import {
     getMovies,
@@ -13,13 +10,29 @@ import {
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
 
+import AdminHeader from "../components/admin/AdminHeader";
+import FeaturedManager from "../components/admin/FeaturedManager";
+import MovieTable from "../components/admin/MovieTable";
+
 const AdminDashboard = () => {
     const [movies, setMovies] = useState([]);
+    const [search, setSearch] = useState("");
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const [sortField, setSortField] =
+        useState("title");
 
-    const [featuredMovies, setFeaturedMovies] = useState([]);
+    const [sortDirection, setSortDirection] =
+        useState("asc");
+
+    const [loading, setLoading] =
+        useState(true);
+
+    const [error, setError] =
+        useState("");
+
+    const [featuredMovies, setFeaturedMovies] =
+        useState([]);
+
     const [featuredLoading, setFeaturedLoading] =
         useState(true);
 
@@ -41,7 +54,9 @@ const AdminDashboard = () => {
         try {
             const data = await getMovies();
 
-            setMovies(data.movies || []);
+            setMovies(
+                data.movies || []
+            );
         } catch (err) {
             setError(err.message);
         } finally {
@@ -76,6 +91,86 @@ const AdminDashboard = () => {
         loadFeatured();
     }, []);
 
+    /* ==============================
+       Table Sorting
+       ============================== */
+
+    const handleSort = (field) => {
+        if (sortField === field) {
+            setSortDirection((current) =>
+                current === "asc"
+                    ? "desc"
+                    : "asc"
+            );
+
+            return;
+        }
+
+        setSortField(field);
+        setSortDirection("asc");
+    };
+
+    const sortedMovies = useMemo(() => {
+        return [...movies].sort((a, b) => {
+            let valueA;
+            let valueB;
+
+            if (sortField === "year") {
+                valueA =
+                    Number(a.year) || 0;
+
+                valueB =
+                    Number(b.year) || 0;
+            } else if (
+                sortField === "genre"
+            ) {
+                valueA =
+                    a.genre?.join(", ") || "";
+
+                valueB =
+                    b.genre?.join(", ") || "";
+            } else {
+                valueA =
+                    a[sortField]
+                        ?.toString() || "";
+
+                valueB =
+                    b[sortField]
+                        ?.toString() || "";
+            }
+
+            if (
+                typeof valueA === "string" &&
+                typeof valueB === "string"
+            ) {
+                const comparison =
+                    valueA.localeCompare(
+                        valueB,
+                        undefined,
+                        {
+                            sensitivity: "base"
+                        }
+                    );
+
+                return sortDirection === "asc"
+                    ? comparison
+                    : -comparison;
+            }
+
+            return sortDirection === "asc"
+                ? valueA - valueB
+                : valueB - valueA;
+        });
+    }, [
+        movies,
+        sortField,
+        sortDirection
+    ]);
+
+    /* ==============================
+       Movie Actions
+       ============================== */
+
     const handleDelete = async (id) => {
         const confirmed =
             window.confirm(
@@ -91,13 +186,15 @@ const AdminDashboard = () => {
 
             setMovies((current) =>
                 current.filter(
-                    (movie) => movie._id !== id
+                    (movie) =>
+                        movie._id !== id
                 )
             );
 
             setFeaturedMovies((current) =>
                 current.filter(
-                    (movieId) => movieId !== id
+                    (movieId) =>
+                        movieId !== id
                 )
             );
         } catch (err) {
@@ -105,13 +202,20 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleFeaturedToggle = (movieId) => {
+    /* ==============================
+       Featured Selection
+       ============================== */
+
+    const handleFeaturedToggle = (
+        movieId
+    ) => {
         setFeaturedError("");
 
         setFeaturedMovies((current) => {
             if (current.includes(movieId)) {
                 return current.filter(
-                    (id) => id !== movieId
+                    (id) =>
+                        id !== movieId
                 );
             }
 
@@ -149,7 +253,9 @@ const AdminDashboard = () => {
                 featuredMovies
             );
         } catch (err) {
-            setFeaturedError(err.message);
+            setFeaturedError(
+                err.message
+            );
         } finally {
             setSavingFeatured(false);
         }
@@ -162,298 +268,55 @@ const AdminDashboard = () => {
     return (
         <section>
 
-            <div className="admin-header">
-
-                <div>
-                    <p className="eyebrow">
-                        ADMIN
-                    </p>
-
-                    <h1>Movie Dashboard</h1>
-                </div>
-
-                <Link
-                    to="/admin/movies/add"
-                    className="button"
-                >
-                    Add Movie
-                </Link>
-
-            </div>
-
-            <ErrorMessage message={error} />
-
-            <section className="featured-admin">
-
-                <div className="section-heading">
-
-                    <div>
-                        <p className="eyebrow">
-                            FEATURED FILMS
-                        </p>
-
-                        <h2>
-                            Monthly Selection
-                        </h2>
-                    </div>
-
-                    <p>
-                        Select three films to feature
-                        this month.
-                    </p>
-
-                </div>
-
-                <div className="featured-admin-controls">
-
-                    <label>
-                        Month
-
-                        <select
-                            value={featuredMonth}
-                            onChange={(event) =>
-                                setFeaturedMonth(
-                                    Number(
-                                        event.target.value
-                                    )
-                                )
-                            }
-                        >
-                            <option value={1}>
-                                January
-                            </option>
-
-                            <option value={2}>
-                                February
-                            </option>
-
-                            <option value={3}>
-                                March
-                            </option>
-
-                            <option value={4}>
-                                April
-                            </option>
-
-                            <option value={5}>
-                                May
-                            </option>
-
-                            <option value={6}>
-                                June
-                            </option>
-
-                            <option value={7}>
-                                July
-                            </option>
-
-                            <option value={8}>
-                                August
-                            </option>
-
-                            <option value={9}>
-                                September
-                            </option>
-
-                            <option value={10}>
-                                October
-                            </option>
-
-                            <option value={11}>
-                                November
-                            </option>
-
-                            <option value={12}>
-                                December
-                            </option>
-                        </select>
-                    </label>
-
-                    <label>
-                        Year
-
-                        <input
-                            type="number"
-                            value={featuredYear}
-                            onChange={(event) =>
-                                setFeaturedYear(
-                                    Number(
-                                        event.target.value
-                                    )
-                                )
-                            }
-                        />
-                    </label>
-
-                    <span className="featured-count">
-                        {featuredMovies.length} / 3 selected
-                    </span>
-
-                </div>
-
-                <ErrorMessage
-                    message={featuredError}
-                />
-
-                {featuredLoading ? (
-                    <Loading />
-                ) : (
-                    <div className="featured-selector">
-
-                        {movies.map((movie) => {
-                            const isSelected =
-                                featuredMovies.includes(
-                                    movie._id
-                                );
-
-                            return (
-                                <button
-                                    key={movie._id}
-                                    type="button"
-                                    className={`featured-selector-card ${
-                                        isSelected
-                                            ? "selected"
-                                            : ""
-                                    }`}
-                                    onClick={() =>
-                                        handleFeaturedToggle(
-                                            movie._id
-                                        )
-                                    }
-                                >
-
-                                    <div className="featured-selector-poster">
-
-                                        {movie.poster?.url ? (
-                                            <img
-                                                src={
-                                                    movie.poster.url
-                                                }
-                                                alt=""
-                                            />
-                                        ) : (
-                                            <span>
-                                                No poster
-                                            </span>
-                                        )}
-
-                                    </div>
-
-                                    <div className="featured-selector-info">
-
-                                        <strong>
-                                            {movie.title}
-                                        </strong>
-
-                                        <span>
-                                            {movie.year}
-                                        </span>
-
-                                    </div>
-
-                                    {isSelected && (
-                                        <span className="featured-selected">
-                                            Selected
-                                        </span>
-                                    )}
-
-                                </button>
-                            );
-                        })}
-
-                    </div>
-                )}
-
-                <div className="featured-admin-actions">
-
-                    <button
-                        type="button"
-                        className="button"
-                        onClick={handleSaveFeatured}
-                        disabled={
-                            savingFeatured ||
-                            featuredMovies.length !== 3
-                        }
-                    >
-                        {savingFeatured
-                            ? "Saving..."
-                            : "Save Featured Films"}
-                    </button>
-
-                </div>
-
-            </section>
-
-            <div className="table-container">
-
-                <table>
-
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Director</th>
-                            <th>Year</th>
-                            <th>Genre</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        {movies.map((movie) => (
-                            <tr key={movie._id}>
-
-                                <td>
-                                    {movie.title}
-                                </td>
-
-                                <td>
-                                    {movie.director}
-                                </td>
-
-                                <td>
-                                    {movie.year}
-                                </td>
-
-                                <td>
-                                    {movie.genre?.join(", ")}
-                                </td>
-
-                                <td className="table-actions">
-
-                                    <Link
-                                        to={`/movies/${movie._id}`}
-                                    >
-                                        View
-                                    </Link>
-
-                                    <Link
-                                        to={`/admin/movies/edit/${movie._id}`}
-                                    >
-                                        Update
-                                    </Link>
-
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            handleDelete(
-                                                movie._id
-                                            )
-                                        }
-                                    >
-                                        Delete
-                                    </button>
-
-                                </td>
-
-                            </tr>
-                        ))}
-
-                    </tbody>
-
-                </table>
-
-            </div>
+            <AdminHeader />
+
+            <ErrorMessage
+                message={error}
+            />
+
+            <FeaturedManager
+                movies={movies}
+                search={search}
+                setSearch={setSearch}
+                featuredMovies={featuredMovies}
+                featuredLoading={
+                    featuredLoading
+                }
+                featuredError={
+                    featuredError
+                }
+                featuredMonth={
+                    featuredMonth
+                }
+                setFeaturedMonth={
+                    setFeaturedMonth
+                }
+                featuredYear={
+                    featuredYear
+                }
+                setFeaturedYear={
+                    setFeaturedYear
+                }
+                handleFeaturedToggle={
+                    handleFeaturedToggle
+                }
+                handleSaveFeatured={
+                    handleSaveFeatured
+                }
+                savingFeatured={
+                    savingFeatured
+                }
+            />
+
+            <MovieTable
+                movies={sortedMovies}
+                sortField={sortField}
+                sortDirection={
+                    sortDirection
+                }
+                handleSort={handleSort}
+                handleDelete={handleDelete}
+            />
 
         </section>
     );

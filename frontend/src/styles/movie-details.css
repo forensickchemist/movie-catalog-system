@@ -1,0 +1,516 @@
+/* ==============================
+   Movie Details
+   ============================== */
+
+.movie-details {
+    width: min(var(--details-width), 100%);
+    margin: 0 auto;
+}
+
+
+/* ==============================
+   Cinematic Header
+   ============================== */
+
+.details-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+
+    min-height: 430px;
+    margin-bottom: 0;
+
+    overflow: hidden;
+
+    background: var(--color-surface);
+}
+
+.details-backdrop {
+    position: absolute;
+    inset: 0;
+
+    background-position: center;
+    background-size: cover;
+
+    filter: grayscale(100%);
+    transform: scale(1.03);
+
+    opacity: 1.0;
+}
+
+.details-backdrop-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            var(--color-background) 0%,
+            rgba(245, 243, 238, 0.72) 45%,
+            rgba(245, 243, 238, 0.2) 100%
+        );
+}
+
+.details-intro {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    padding: 100px 0 70px;
+}
+
+.details-intro .eyebrow {
+    margin-bottom: 20px;
+
+    font-size: 12px;
+    opacity: 0.65;
+}
+
+.details-intro h1 {
+    max-width: 1000px;
+
+    margin: 0;
+
+    font-family: var(--font-display);
+    font-size: clamp(58px, 9vw, 120px);
+    font-weight: 500;
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+}
+
+.details-director {
+    margin: 28px 0 0;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    opacity: 0.65;
+}
+
+.details-director strong {
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+
+/* ==============================
+   Genres
+   ============================== */
+
+.genre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+
+    margin-top: 26px;
+}
+
+.genre-list span {
+    position: relative;
+
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    opacity: 0.6;
+}
+
+.genre-list span:not(:last-child)::after {
+    position: absolute;
+    right: -11px;
+    content: "·";
+}
+
+
+/* ==============================
+   Film Information
+   ============================== */
+
+.details-film {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 80px;
+
+    padding: 70px 0 100px;
+
+    border-top: var(--border-dark);
+}
+
+.details-poster {
+    width: 100%;
+
+    aspect-ratio: 2 / 3;
+
+    overflow: hidden;
+
+    background: var(--color-surface);
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.08);
+}
+
+.details-poster img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.details-description {
+    align-self: center;
+
+    max-width: 650px;
+}
+
+.details-label {
+    margin-bottom: 24px;
+
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+
+    opacity: 0.5;
+}
+
+.movie-description {
+    margin: 0;
+
+    font-size: 18px;
+    line-height: 1.9;
+}
+
+
+/* ==============================
+   Comments
+   ============================== */
+
+.comments {
+    padding: 34px 0 80px;
+
+    border-top: var(--border-dark);
+}
+
+.comments-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-bottom: 45px;
+}
+
+.comments-heading .eyebrow {
+    margin-bottom: 12px;
+}
+
+.comments-heading h2 {
+    margin: 0;
+
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.comments-count {
+    font-size: 11px;
+
+    opacity: 0.5;
+}
+
+
+/* ==============================
+   Comment Form
+   ============================== */
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 55px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    min-height: 130px;
+
+    padding: 16px 0;
+
+    border: 0;
+    border-bottom: var(--border);
+
+    border-radius: 0;
+
+    background: transparent;
+    color: var(--color-text);
+
+    font-size: 15px;
+    line-height: 1.7;
+
+    outline: none;
+
+    resize: vertical;
+
+    transition:
+        border-color 0.2s ease;
+}
+
+.comment-form textarea::placeholder {
+    color: var(--color-text);
+    opacity: 0.4;
+}
+
+.comment-form textarea:focus {
+    border-bottom-color: var(--color-text);
+}
+
+.comment-form .error-message {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.comment-form-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 18px;
+}
+
+.comment-login {
+    margin: 0 0 45px;
+
+    font-size: var(--text-sm);
+    opacity: 0.65;
+}
+
+.comment-login a {
+    color: var(--color-text);
+
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    opacity: 1;
+}
+
+
+/* ==============================
+   Comment List
+   ============================== */
+
+.comment-list {
+    border-top: var(--border);
+}
+
+.comment {
+    padding: 28px 0;
+
+    border-bottom: var(--border);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    gap: 20px;
+}
+
+.comment-header strong {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.comment-header time {
+    font-size: 10px;
+
+    opacity: 0.45;
+}
+
+.comment p {
+    max-width: 760px;
+
+    margin: 12px 0 0;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.no-comments {
+    margin: 0;
+    padding: 28px 0;
+
+    font-size: var(--text-sm);
+
+    opacity: 0.5;
+}
+
+
+/* ==============================
+   Responsive
+   ============================== */
+
+@media (max-width: 800px) {
+
+    .details-hero {
+        min-height: 390px;
+    }
+
+    .details-intro {
+        padding: 80px 0 55px;
+    }
+
+    .details-intro h1 {
+        font-size: clamp(
+            54px,
+            10vw,
+            82px
+        );
+    }
+
+    .details-film {
+        grid-template-columns: 280px 1fr;
+        gap: 45px;
+
+        padding: 55px 0 80px;
+    }
+
+    .movie-description {
+        font-size: 16px;
+        line-height: 1.8;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .details-hero {
+        min-height: 350px;
+    }
+
+    .details-backdrop {
+        opacity: 0.16;
+    }
+
+    .details-intro {
+        padding: 70px 0 45px;
+    }
+
+    .details-intro h1 {
+        font-size: clamp(
+            50px,
+            14vw,
+            72px
+        );
+    }
+
+    .details-director {
+        margin-top: 22px;
+    }
+
+    .details-film {
+        grid-template-columns: 1fr;
+        gap: 45px;
+
+        padding: 45px 0 70px;
+    }
+
+    .details-poster {
+        width: min(300px, 100%);
+    }
+
+    .details-description {
+        max-width: 100%;
+    }
+
+    .movie-description {
+        font-size: 16px;
+    }
+
+    .comments {
+        padding-bottom: 60px;
+    }
+
+    .comments-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+
+        margin-bottom: 35px;
+    }
+
+    .comments-heading h2 {
+        font-size: 42px;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .details-hero {
+        min-height: 320px;
+    }
+
+    .details-intro {
+        padding: 55px 0 38px;
+    }
+
+    .details-intro .eyebrow {
+        margin-bottom: 16px;
+    }
+
+    .details-intro h1 {
+        font-size: 48px;
+        letter-spacing: -0.025em;
+    }
+
+    .details-director {
+        font-size: 13px;
+    }
+
+    .genre-list {
+        gap: 7px 16px;
+        margin-top: 22px;
+    }
+
+    .genre-list span {
+        font-size: 9px;
+    }
+
+    .details-film {
+        padding: 35px 0 55px;
+    }
+
+    .details-poster {
+        width: 240px;
+    }
+
+    .details-label {
+        margin-bottom: 18px;
+    }
+
+    .movie-description {
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .comments {
+        padding-bottom: 45px;
+    }
+
+    .comments-heading h2 {
+        font-size: 38px;
+    }
+
+    .comment-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .comment-form-actions {
+        justify-content: flex-start;
+    }
+}

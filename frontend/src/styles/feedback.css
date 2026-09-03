@@ -1,0 +1,50 @@
+/* ==============================
+   Loading
+   ============================== */
+
+.loading {
+    padding: 50px 0;
+
+    font-size: var(--text-base);
+    opacity: 0.6;
+}
+
+/* ==============================
+   Empty State
+   ============================== */
+
+.empty-state {
+    padding: 50px 0;
+
+    opacity: 0.6;
+}
+
+/* ==============================
+   Error
+   ============================== */
+
+.error-message {
+    padding: 14px 16px;
+
+    border: 1px solid var(--color-error);
+
+    color: var(--color-error);
+
+    font-size: var(--text-sm);
+    line-height: 1.6;
+}
+
+/* ==============================
+   Success
+   ============================== */
+
+.success-message {
+    padding: 14px 16px;
+
+    border: 1px solid var(--color-success);
+
+    color: var(--color-success);
+
+    font-size: var(--text-sm);
+    line-height: 1.6;
+}

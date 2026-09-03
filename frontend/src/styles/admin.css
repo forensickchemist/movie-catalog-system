@@ -1,0 +1,610 @@
+/* ==============================
+   Admin Header
+   ============================== */
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-bottom: 50px;
+    padding-bottom: 24px;
+
+    border-bottom: var(--border-dark);
+}
+
+.admin-header h1 {
+    margin: 0;
+
+    font-family: var(--font-display);
+    font-size: clamp(42px, 6vw, 64px);
+    font-weight: 500;
+    line-height: 0.95;
+}
+
+/* ==============================
+   Featured Admin
+   ============================== */
+
+.featured-admin {
+    margin-bottom: 80px;
+}
+
+.featured-admin .section-heading {
+    align-items: flex-end;
+}
+
+.featured-admin .section-heading > div {
+    min-width: 0;
+}
+
+.featured-admin .section-heading p:last-child {
+    max-width: 280px;
+    margin: 0;
+
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    text-align: right;
+    opacity: 0.6;
+}
+
+/* ==============================
+   Featured Controls
+   ============================== */
+
+.featured-admin-controls {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    margin-bottom: 24px;
+}
+
+.featured-admin-controls label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.featured-admin-controls input,
+.featured-admin-controls select {
+    min-width: 140px;
+    padding: 10px 12px;
+
+    border: var(--border);
+    border-radius: 0;
+
+    background: var(--color-background);
+    color: var(--color-text);
+
+    outline: none;
+}
+
+.featured-admin-controls input:focus,
+.featured-admin-controls select:focus {
+    border-color: var(--color-text);
+}
+
+.featured-count {
+    padding-bottom: 11px;
+
+    font-size: var(--text-sm);
+    opacity: 0.6;
+}
+
+/* ==============================
+   Current Featured Films
+   ============================== */
+
+.featured-selection {
+    margin-top: 40px;
+}
+
+.featured-subheading {
+    margin-bottom: 16px;
+
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* ==============================
+   Selected Films
+   ============================== */
+
+.featured-selected-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.featured-selected-item {
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid var(--color-border);
+
+    background: var(--color-surface-light);
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.featured-selected-item:hover {
+    border-color: var(--color-text);
+    transform: translateY(-2px);
+}
+
+/* ==============================
+   Selected Film Poster
+   ============================== */
+
+.featured-selected-poster {
+    width: 100%;
+
+    aspect-ratio: 2 / 3;
+
+    overflow: hidden;
+
+    background: var(--color-surface);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.featured-selected-poster img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.featured-selected-poster span {
+    padding: 10px;
+
+    font-size: var(--text-xs);
+    opacity: 0.5;
+}
+
+/* ==============================
+   Selected Film Information
+   ============================== */
+
+.featured-selected-info {
+    padding: 14px;
+}
+
+.featured-selected-info > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.featured-selected-info strong {
+    display: block;
+
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+.featured-selected-info span {
+    display: block;
+
+    font-size: 11px;
+    opacity: 0.6;
+}
+
+/* ==============================
+   Selected Film Number
+   ============================== */
+
+.featured-selected-number {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid var(--color-border);
+
+    background: var(--color-background);
+    color: var(--color-text);
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ==============================
+   Remove Featured Film
+   ============================== */
+
+.featured-remove-button {
+    width: 100%;
+
+    padding: 10px 14px;
+
+    border: 0;
+    border-top: 1px solid var(--color-border);
+
+    background: transparent;
+    color: var(--color-text);
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-align: left;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.featured-remove-button:hover {
+    background: var(--color-surface);
+}
+
+.featured-remove-button:focus-visible {
+    outline: 1px solid var(--color-text);
+    outline-offset: -1px;
+}
+
+/* ==============================
+   Empty Featured State
+   ============================== */
+
+.featured-empty {
+    padding: 30px 0;
+
+    border-top: var(--border);
+    border-bottom: var(--border);
+
+    font-size: var(--text-sm);
+    opacity: 0.6;
+}
+
+/* ==============================
+   Featured Search
+   ============================== */
+
+.featured-search {
+    margin-top: 40px;
+}
+
+.featured-search-results {
+    margin-top: 24px;
+}
+
+.featured-results-heading {
+    margin-bottom: 12px;
+
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+/* ==============================
+   Search Results
+   ============================== */
+
+.featured-results-list {
+    border-top: var(--border);
+}
+
+.featured-search-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    padding: 16px 0;
+
+    border-bottom: var(--border);
+}
+
+.featured-search-result-info {
+    min-width: 0;
+
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+}
+
+.featured-search-result-info strong {
+    display: block;
+
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.featured-search-result-info span {
+    display: block;
+
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    opacity: 0.6;
+}
+
+.featured-search-result-year {
+    display: block;
+
+    flex-shrink: 0;
+
+    margin-left: 2px;
+
+    font-size: var(--text-xs);
+    opacity: 0.5;
+}
+
+.featured-result-action {
+    flex-shrink: 0;
+
+    padding: 7px 12px;
+
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+
+    background: transparent;
+    color: var(--color-text);
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.featured-result-action:hover:not(:disabled) {
+    border-color: var(--color-text);
+
+    background: var(--color-text);
+    color: var(--color-background);
+}
+
+.featured-result-action:disabled {
+    cursor: default;
+    opacity: 0.4;
+}
+
+/* ==============================
+   Featured Actions
+   ============================== */
+
+.featured-admin-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 24px;
+}
+
+/* ==============================
+   Movie Table
+   ============================== */
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border-top: var(--border-dark);
+}
+
+.table-container table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: var(--text-sm);
+}
+
+.table-container th {
+    padding: 16px 12px;
+
+    border-bottom: var(--border);
+
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.table-container td {
+    padding: 18px 12px;
+
+    border-bottom: var(--border);
+
+    vertical-align: middle;
+}
+
+.table-container tbody tr {
+    transition: background 0.2s ease;
+}
+
+.table-container tbody tr:hover {
+    background: var(--color-surface);
+}
+
+/* ==============================
+   Table Actions
+   ============================== */
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.table-actions a,
+.table-actions button {
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+    color: var(--color-text);
+
+    font-size: var(--text-sm);
+
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    cursor: pointer;
+}
+
+.table-actions a:hover,
+.table-actions button:hover {
+    opacity: 0.55;
+}
+
+.table-actions button {
+    color: var(--color-error);
+}
+
+/* ==============================
+   Responsive
+   ============================== */
+
+@media (max-width: 800px) {
+    .admin-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .featured-admin .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .featured-admin .section-heading p:last-child {
+        max-width: 400px;
+        text-align: left;
+    }
+
+    .featured-selected-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .featured-selected-info {
+        padding: 12px;
+    }
+
+    .featured-selected-info strong {
+        font-size: 15px;
+    }
+
+    .featured-search-result-info {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .featured-selected-list {
+        grid-template-columns: 1fr;
+    }
+
+    .featured-admin-controls {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .featured-admin-controls label {
+        width: 100%;
+    }
+
+    .featured-admin-controls input,
+    .featured-admin-controls select {
+        width: 100%;
+    }
+
+    .featured-count {
+        padding-bottom: 0;
+    }
+
+    .featured-admin-actions {
+        justify-content: flex-start;
+    }
+
+    .featured-search-result {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .featured-search-result-info {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .featured-result-action {
+        width: 100%;
+    }
+}
+
+@media (max-width: 450px) {
+    .admin-header {
+        margin-bottom: 35px;
+    }
+
+    .admin-header h1 {
+        font-size: 42px;
+    }
+
+    .featured-selected-list {
+        gap: 12px;
+    }
+
+    .featured-selected-info {
+        padding: 10px;
+    }
+
+    .featured-selected-info strong {
+        font-size: 15px;
+    }
+
+    .featured-selected-number {
+        top: 8px;
+        left: 8px;
+
+        width: 28px;
+        height: 28px;
+    }
+
+    .table-container th,
+    .table-container td {
+        padding: 14px 10px;
+    }
+}

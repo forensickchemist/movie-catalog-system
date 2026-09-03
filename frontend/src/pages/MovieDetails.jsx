@@ -96,71 +96,141 @@ const MovieDetails = () => {
         );
     }
 
+    const hasBackdrop = Boolean(
+        movie.backdrop?.url
+    );
+
     return (
         <article className="movie-details">
 
-            <div className="details-poster">
+            {/* ==============================
+                Cinematic Header
+            ============================== */}
 
-                {movie.poster?.url ? (
-                    <img
-                        src={movie.poster.url}
-                        alt={`${movie.title} poster`}
+            <section
+                className={`details-hero ${
+                    hasBackdrop ? "has-backdrop" : ""
+                }`}
+            >
+                {hasBackdrop && (
+                    <div
+                        className="details-backdrop"
+                        style={{
+                            backgroundImage: `url("${movie.backdrop.url}")`
+                        }}
                     />
-                ) : (
-                    <PosterPlaceholder />
                 )}
 
-            </div>
+                <div className="details-backdrop-overlay" />
 
-            <div className="details-content">
+                <div className="app-container">
+                    <div className="details-intro">
+                        <p className="eyebrow">
+                            {movie.year}
+                        </p>
 
-                <p className="movie-year">
-                    {movie.year}
-                </p>
+                        <h1>
+                            {movie.title}
+                        </h1>
 
-                <h1>{movie.title}</h1>
+                        <p className="details-director">
+                            Directed by{" "}
+                            <strong>
+                                {movie.director}
+                            </strong>
+                        </p>
 
-                <p className="details-director">
-                    Directed by {movie.director}
-                </p>
+                        <div className="genre-list">
+                            {movie.genre?.map((genre) => (
+                                <span key={genre}>
+                                    {genre}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-                <div className="genre-list">
-                    {movie.genre?.map((genre) => (
-                        <span key={genre}>
-                            {genre}
-                        </span>
-                    ))}
+
+            {/* ==============================
+                Film Information
+               ============================== */}
+
+            <section className="details-film">
+
+                <div className="details-poster">
+                    {movie.poster?.url ? (
+                        <img
+                            src={movie.poster.url}
+                            alt={`${movie.title} poster`}
+                        />
+                    ) : (
+                        <PosterPlaceholder />
+                    )}
                 </div>
 
-                <p className="movie-description">
-                    {movie.description}
-                </p>
+                <div className="details-description">
 
-                <section className="comments">
+                    <div className="details-label">
+                        ABOUT THE FILM
+                    </div>
 
-                    <h2>Comments</h2>
+                    <p className="movie-description">
+                        {movie.description}
+                    </p>
 
-                    {isAuthenticated ? (
-                        <form
-                            onSubmit={handleCommentSubmit}
-                            className="comment-form"
-                        >
+                </div>
 
-                            <textarea
-                                value={comment}
-                                onChange={(event) =>
-                                    setComment(
-                                        event.target.value
-                                    )
-                                }
-                                placeholder="Share your thoughts..."
-                                rows="4"
-                            />
+            </section>
 
-                            <ErrorMessage
-                                message={commentError}
-                            />
+            {/* ==============================
+                Comments
+               ============================== */}
 
+            <section className="comments">
+
+                <div className="comments-heading">
+                    <div>
+                        <p className="eyebrow">
+                            AUDIENCE
+                        </p>
+
+                        <h2>
+                            Comments
+                        </h2>
+                    </div>
+
+                    {comments.length > 0 && (
+                        <span className="comments-count">
+                            {comments.length}{" "}
+                            {comments.length === 1
+                                ? "comment"
+                                : "comments"}
+                        </span>
+                    )}
+                </div>
+
+                {isAuthenticated ? (
+                    <form
+                        onSubmit={handleCommentSubmit}
+                        className="comment-form"
+                    >
+                        <textarea
+                            value={comment}
+                            onChange={(event) =>
+                                setComment(
+                                    event.target.value
+                                )
+                            }
+                            placeholder="Share your thoughts..."
+                            rows="4"
+                        />
+
+                        <ErrorMessage
+                            message={commentError}
+                        />
+
+                        <div className="comment-form-actions">
                             <button
                                 type="submit"
                                 className="button"
@@ -170,59 +240,65 @@ const MovieDetails = () => {
                                     ? "Posting..."
                                     : "Post Comment"}
                             </button>
+                        </div>
+                    </form>
+                ) : (
+                    <p className="comment-login">
+                        <Link to="/login">
+                            Sign in
+                        </Link>{" "}
+                        to leave a comment.
+                    </p>
+                )}
 
-                        </form>
-                    ) : (
-                        <p>
-                            <Link to="/login">
-                                Sign in
-                            </Link>{" "}
-                            to leave a comment.
+                <div className="comment-list">
+
+                    {!comments.length ? (
+                        <p className="no-comments">
+                            No comments yet.
                         </p>
+                    ) : (
+                        comments.map((item) => (
+                            <div
+                                className="comment"
+                                key={item.id}
+                            >
+                                <div className="comment-header">
+                                    <strong>
+                                        {item.displayName}
+                                    </strong>
+
+                                    {item.createdAt && (
+                                        <time
+                                            dateTime={
+                                                item.createdAt
+                                            }
+                                        >
+                                            {new Date(
+                                                item.createdAt
+                                            ).toLocaleString(
+                                                [],
+                                                {
+                                                    dateStyle:
+                                                        "medium",
+                                                    timeStyle:
+                                                        "short"
+                                                }
+                                            )}
+                                        </time>
+                                    )}
+                                </div>
+
+                                <p>
+                                    {item.comment}
+                                </p>
+                            </div>
+                        ))
                     )}
 
-                    <div className="comment-list">
+                </div>
 
-                        {!comments.length ? (
-                            <p>
-                                No comments yet.
-                            </p>
-                        ) : (
-                            
-                            comments.map((item) => (
-                                <div
-                                    className="comment"
-                                    key={item.id}
-                                >
-                                    <div className="comment-header">
-                                        <strong>
-                                            {item.displayName}
-                                        </strong>
-
-                                        {item.createdAt && (
-                                            <time dateTime={item.createdAt}>
-                                                {new Date(
-                                                    item.createdAt
-                                                ).toLocaleString([], {
-                                                    dateStyle: "medium",
-                                                    timeStyle: "short"
-                                                })}
-                                            </time>
-                                        )}
-                                    </div>
-
-                                    <p>
-                                        {item.comment}
-                                    </p>
-                                </div>
-                            ))
-                        )}
-
-                    </div>
-
-                </section>
-
-            </div>
+            </section>
 
         </article>
     );

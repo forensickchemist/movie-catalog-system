@@ -31,7 +31,7 @@ const MovieCard = ({ movie }) => {
                 </h2>
 
                 <p className="movie-director">
-                    Directed by {movie.director}
+                    {movie.director}
                 </p>
 
                 <div className="genre-list">

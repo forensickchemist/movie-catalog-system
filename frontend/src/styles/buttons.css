@@ -1,0 +1,87 @@
+/* ==============================
+   Buttons
+   ============================== */
+
+.button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 42px;
+    padding: 0 20px;
+
+    border: 1px solid var(--color-text);
+    background: var(--color-text);
+    color: var(--color-background);
+
+    font-size: var(--text-sm);
+    font-weight: 500;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.button:hover {
+    background: transparent;
+    color: var(--color-text);
+}
+
+.button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* ==============================
+   Secondary Button
+   ============================== */
+
+.button-secondary {
+    background: transparent;
+    color: var(--color-text);
+}
+
+.button-secondary:hover {
+    background: var(--color-text);
+    color: var(--color-background);
+}
+
+/* ==============================
+   Danger Button
+   ============================== */
+
+.button-danger {
+    border-color: var(--color-error);
+    background: var(--color-error);
+    color: #fff;
+}
+
+.button-danger:hover {
+    background: transparent;
+    color: var(--color-error);
+}
+
+/* ==============================
+   Button Groups
+   ============================== */
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* ==============================
+   Outline Button
+   ============================== */
+
+.button-outline {
+    background: transparent;
+    color: var(--color-text);
+}
+
+.button-outline:hover {
+    background: var(--color-text);
+    color: var(--color-background);
+}

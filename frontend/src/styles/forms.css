@@ -1,0 +1,317 @@
+/* ==============================
+   Form Page
+   ============================== */
+
+.form-page {
+    width: min(720px, 100%);
+    margin: 0 auto;
+}
+
+/* ==============================
+   Form Header
+   ============================== */
+
+.form-header {
+    margin-bottom: 40px;
+}
+
+.form-header h1 {
+    margin: 0;
+
+    font-family: var(--font-display);
+    font-size: clamp(44px, 6vw, 68px);
+    font-weight: 500;
+    line-height: 0.95;
+}
+
+/* ==============================
+   Form Card
+   ============================== */
+
+.form-card {
+    padding: 40px;
+
+    border: var(--border);
+    background: var(--color-surface-light);
+}
+
+/* ==============================
+   Form
+   ============================== */
+
+.form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-card label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.form-card input,
+.form-card textarea,
+.form-card select {
+    width: 100%;
+    padding: 12px 14px;
+
+    border: var(--border);
+    border-radius: 0;
+
+    background: var(--color-background);
+    color: var(--color-text);
+
+    font-size: var(--text-base);
+    font-weight: 400;
+
+    outline: none;
+
+    transition: border-color 0.2s ease;
+}
+
+.form-card input:focus,
+.form-card textarea:focus,
+.form-card select:focus {
+    border-color: var(--color-text);
+}
+
+.form-card textarea {
+    min-height: 170px;
+
+    line-height: 1.7;
+    resize: vertical;
+}
+
+/* ==============================
+   File Inputs
+   ============================== */
+
+.form-card input[type="file"] {
+    padding: 10px;
+
+    background: var(--color-surface);
+}
+
+.form-card input[type="file"]::file-selector-button {
+    margin-right: 12px;
+    padding: 8px 12px;
+
+    border: 1px solid var(--color-text);
+
+    background: var(--color-text);
+    color: var(--color-background);
+
+    font: inherit;
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.form-card small {
+    margin-top: -2px;
+
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.5;
+
+    opacity: 0.55;
+}
+
+/* ==============================
+   Form Error
+   ============================== */
+
+.form-card > .error-message {
+    margin-bottom: 24px;
+}
+
+/* ==============================
+   Form Actions
+   ============================== */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-top: 8px;
+    padding-top: 24px;
+
+    border-top: var(--border);
+}
+
+/* ==============================
+   Auth Page
+   ============================== */
+
+.auth-page {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.auth-card {
+    width: min(440px, 100%);
+    padding: 40px;
+
+    border: var(--border);
+    background: var(--color-surface-light);
+}
+
+.auth-card .eyebrow {
+    margin-bottom: 14px;
+}
+
+.auth-card h1 {
+    margin: 0 0 30px;
+
+    font-family: var(--font-display);
+    font-size: clamp(42px, 6vw, 54px);
+    font-weight: 500;
+    line-height: 0.95;
+}
+
+/* ==============================
+   Auth Form
+   ============================== */
+
+.auth-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.auth-card label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 12px 14px;
+
+    border: var(--border);
+    border-radius: 0;
+
+    background: var(--color-background);
+    color: var(--color-text);
+
+    font-size: var(--text-base);
+
+    outline: none;
+
+    transition: border-color 0.2s ease;
+}
+
+.auth-card input:focus {
+    border-color: var(--color-text);
+}
+
+/* ==============================
+   Full Width Button
+   ============================== */
+
+.button-full {
+    width: 100%;
+}
+
+/* ==============================
+   Auth Links
+   ============================== */
+
+.auth-card > p:last-child {
+    margin: 26px 0 0;
+
+    padding-top: 20px;
+
+    border-top: var(--border);
+
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    text-align: center;
+
+    opacity: 0.65;
+}
+
+.auth-card > p:last-child a {
+    color: var(--color-text);
+
+    font-weight: 500;
+
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    opacity: 1;
+}
+
+.auth-card > p:last-child a:hover {
+    opacity: 0.55;
+}
+
+/* ==============================
+   Success Message
+   ============================== */
+
+.auth-card .success-message {
+    margin-bottom: 24px;
+}
+
+/* ==============================
+   Mobile
+   ============================== */
+
+@media (max-width: 600px) {
+    .form-card {
+        padding: 30px;
+    }
+
+    .form-actions {
+        justify-content: flex-start;
+    }
+
+    .form-actions .button {
+        flex: 1;
+    }
+}
+
+@media (max-width: 450px) {
+    .form-card,
+    .auth-card {
+        padding: 24px;
+    }
+
+    .form-header {
+        margin-bottom: 30px;
+    }
+
+    .form-header h1 {
+        font-size: 46px;
+    }
+
+    .form-card form {
+        gap: 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .button {
+        width: 100%;
+    }
+
+    .auth-card h1 {
+        font-size: 44px;
+    }
+}

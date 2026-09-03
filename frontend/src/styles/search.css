@@ -1,0 +1,142 @@
+/* ==============================
+   Search Bar
+   ============================== */
+
+.search-bar {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+/* ==============================
+   Search Input
+   ============================== */
+
+.search-input-wrapper {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+
+    border-bottom: 1px solid var(--color-text);
+}
+
+/* ==============================
+   Search Icon
+   ============================== */
+
+.search-icon {
+    flex-shrink: 0;
+
+    margin-right: 12px;
+
+    font-size: 22px;
+    line-height: 1;
+
+    opacity: 0.55;
+}
+
+/* ==============================
+   Input
+   ============================== */
+
+.search-input-wrapper input {
+    width: 100%;
+    min-height: 52px;
+
+    padding: 0 42px 0 0;
+
+    border: 0;
+    border-radius: 0;
+
+    background: transparent;
+    color: var(--color-text);
+
+    font-size: 16px;
+
+    outline: none;
+}
+
+.search-input-wrapper input::placeholder {
+    color: var(--color-text);
+    opacity: 0.45;
+}
+
+/* Remove browser search decorations */
+
+.search-input-wrapper input::-webkit-search-decoration,
+.search-input-wrapper input::-webkit-search-cancel-button,
+.search-input-wrapper input::-webkit-search-results-button,
+.search-input-wrapper input::-webkit-search-results-decoration {
+    display: none;
+}
+
+/* ==============================
+   Clear Button
+   ============================== */
+
+.search-clear {
+    position: absolute;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 30px;
+    height: 30px;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+    color: var(--color-text);
+
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1;
+
+    opacity: 0.55;
+
+    transition: opacity 0.2s ease;
+}
+
+.search-clear:hover {
+    opacity: 1;
+}
+
+/* ==============================
+   Focus
+   ============================== */
+
+.search-input-wrapper:focus-within {
+    border-bottom-color: var(--color-text);
+}
+
+.search-input-wrapper:focus-within .search-icon {
+    opacity: 1;
+}
+
+/* ==============================
+   Mobile
+   ============================== */
+
+@media (max-width: 450px) {
+    .search-bar {
+        margin-bottom: 30px;
+    }
+
+    .search-input-wrapper input {
+        min-height: 48px;
+
+        font-size: 14px;
+    }
+
+    .search-icon {
+        margin-right: 10px;
+
+        font-size: 20px;
+    }
+}

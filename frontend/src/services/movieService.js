@@ -1,7 +1,15 @@
 import request, { getAuthHeaders } from "./api";
 
-export const getMovies = async () => {
-    return request("/movies/getMovies");
+export const getMovies = async (search = "") => {
+    const query = search.trim();
+
+    if (!query) {
+        return request("/movies/getMovies");
+    }
+
+    return request(
+        `/movies/getMovies?search=${encodeURIComponent(query)}`
+    );
 };
 
 export const getMovieById = async (id) => {

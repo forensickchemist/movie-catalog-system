@@ -2,6 +2,7 @@ const Movie = require("../models/Movie");
 const asyncHandler = require("../middleware/asyncHandler");
 const uploadToCloudinary = require("../utils/cloudinaryUpload");
 const deleteFromCloudinary = require("../utils/cloudinaryDelete");
+
 const maskEmail = require("../utils/maskEmail");
 
 module.exports.addMovie = asyncHandler(async (req, res) => {
@@ -63,7 +64,50 @@ module.exports.addMovie = asyncHandler(async (req, res) => {
 });
 
 module.exports.getAllMovies = asyncHandler(async (req, res) => {
-    const movies = await Movie.find();
+    const { search } = req.query;
+
+    const query = {};
+
+    if (search?.trim()) {
+        const searchTerm = search.trim();
+
+        const escapedSearchTerm =
+            searchTerm.replace(
+                /[.*+?^${}()|[\]\\]/g,
+                "\\$&"
+            );
+
+        query.$or = [
+            {
+                title: {
+                    $regex: escapedSearchTerm,
+                    $options: "i"
+                }
+            },
+            {
+                director: {
+                    $regex: escapedSearchTerm,
+                    $options: "i"
+                }
+            },
+            {
+                genre: {
+                    $regex: escapedSearchTerm,
+                    $options: "i"
+                }
+            }
+        ];
+
+        const year = Number(searchTerm);
+
+        if (!Number.isNaN(year)) {
+            query.$or.push({
+                year
+            });
+        }
+    }
+
+    const movies = await Movie.find(query);
 
     res.status(200).json({
         movies
