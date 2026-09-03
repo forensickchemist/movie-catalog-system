@@ -408,13 +408,13 @@ The project is actively structured for continued development, with reusable comp
 - Admin
 ```
 email: ingrid.bergman@hollywood.com
-password: password123
+password: **will be provided upon request**
 ```
 
 - Regular User:
 ```
 email: marion.cotillard@hollywood.com
-password: password123
+password: **will be provided upon request**
 ```
 
 
